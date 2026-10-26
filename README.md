@@ -34,6 +34,8 @@ Pi gets a short report (how it ended, the steps, the time, the decisions and the
 
 A password field is never offered for typing. Pi signs in first (for example with the Browser sign-in extension), then runs again.
 
+**A run clicks and types without asking anyone**, on the session's page, which may be signed in. A hostile page can steer it: give it goals on sites you trust, and never one that pays, sends, or deletes. The report that Pi gets is fenced, and says that its labels, errors, and page text are data from a web page, not instructions.
+
 ## The run model
 
 The owner chooses it, with the command `/browser-run-model` (the owner only; Pi cannot choose: the tool has no model parameter). It is kept in Pi Pocket's data folder, in `browser-runs.json`.

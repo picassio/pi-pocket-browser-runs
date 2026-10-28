@@ -206,10 +206,20 @@ test("a run types only supplied values, chooses only offered targets, and is don
         step("CLICK", { prev_ok: { noul: 1 }, goal_achieved: { noul: 0.2 } }),
         step("DONE", { prev_ok: { noul: 1 }, goal_achieved: { noul: 0.9 } }),
     ]);
-    const result = await runGoal(page, decider, options({ query: "lamp" }));
+    const progress: string[] = [];
+    const result = await runGoal(
+        page,
+        decider,
+        options({ query: "lamp" }, { progress: (what) => progress.push(what) }),
+    );
 
     assert.equal(result.status, "done");
     assert.deepEqual(done, ["type e1 lamp", "select e2 Newest", "click e4"]);
+    // Pi gets the progress lines unfenced when a run is cut off: they name targets by ref, never by the page's words.
+    assert.deepEqual(
+        progress.filter((line) => !line.startsWith("Deciding")),
+        ["Typing query into [e1]", "Choosing an option in [e2]", "Clicking [e4]"],
+    );
     assert.equal(result.decisions, 4);
     assert.ok(Math.abs(result.spent.cost - 0.0004) < 1e-9);
 

@@ -694,13 +694,13 @@ export async function runGoal(
 
                 if (operation === "CLICK") {
                     did = `clicked [${target.ref}] ${target.label}`;
-                    options.progress(`Clicking ${target.label}`);
+                    // Progress lines name targets by ref only: Pi Pocket gives them to Pi unfenced as the result when a
+                    // run throws, is stopped, or is cut off, and labels and options are the page's words.
+                    options.progress(`Clicking [${target.ref}]`);
                     await page.click(target.ref);
                 } else if (operation === "SELECT") {
                     did = `chose ${JSON.stringify(target.option)} in [${target.ref}] ${target.label}`;
-                    options.progress(
-                        `Choosing ${JSON.stringify(target.option)} in ${target.label}`,
-                    );
+                    options.progress(`Choosing an option in [${target.ref}]`);
                     await page.select(target.ref, target.option ?? "");
                 } else {
                     const name = answers.value_for_field?.choice;
@@ -719,7 +719,7 @@ export async function runGoal(
 
                     typed = options.values[name];
                     did = `typed ${name} into [${target.ref}] ${target.label}`;
-                    options.progress(`Typing ${name} into ${target.label}`);
+                    options.progress(`Typing ${name} into [${target.ref}]`);
                     await page.type(target.ref, options.values[name]!);
                 }
             } else if (operation === "SCROLL_DOWN" || operation === "SCROLL_UP") {
